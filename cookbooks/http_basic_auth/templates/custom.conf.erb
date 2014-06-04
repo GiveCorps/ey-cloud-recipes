@@ -1,0 +1,3 @@
+# cookbooks/http_basic_auth/templates/default/custom.conf.erb
+
+rewrite ^/members/(.*)/blog_entries/(.*)$  /members/$1/blog/$2 permanent;

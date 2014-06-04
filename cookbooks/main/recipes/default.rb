@@ -68,6 +68,9 @@ include_recipe "redis"
 #uncomment to run the api-keys-yml recipe
 include_recipe "api-keys-yml"
 
+# to use other than UTC as the timezone
+include_recipe "timezone"
+
 #include_recipe "logrotate"
 #
 #uncomment to use the solr recipe
