@@ -1,3 +1,4 @@
 .DS_Store
 *.swp
 .idea
+cookbooks/api-keys-yml/templates/default/api-keys.yml.erb
