@@ -38,7 +38,7 @@ end
 
 remote_file '/home/deploy/loggly-configure-linux.sh' do
   source 'https://www.loggly.com/install/configure-linux.sh'
-  checksum '7d6bdd1c00343f6fe3b21db8ccc81e8cd1182c5039438485acac4d98f314fe10'
+  checksum '5cc00ca4dad7fb8014db9ee1831e4401'
   mode '0755'
 end
 
@@ -57,7 +57,7 @@ execute 'stop-sysklogd' do
 end
 
 execute 'restart-rsyslog' do
-  command %{sudo /etc/init.d/rsyslog restart}
+  command %{sudo kill -9 `pidof rsyslogd`; sudo /etc/init.d/rsyslog stop; sudo /etc/init.d/rsyslog start}
 end
 
 execute 'configure-loggly' do
