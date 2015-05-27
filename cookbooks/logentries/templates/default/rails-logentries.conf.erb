@@ -1,0 +1,3 @@
+$template LogentriesFormat,"<%= @token %> %HOSTNAME% %syslogtag%%msg%\n"
+
+*.* @@data.logentries.com:80;LogentriesFormat

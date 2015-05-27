@@ -71,8 +71,8 @@ include_recipe "api-keys-yml"
 # to use other than UTC as the timezone
 include_recipe "timezone"
 
-# include the loggly recipe
-include_recipe "loggly"
+# include the logentries recipe
+include_recipe "logentries"
 
 #include_recipe "logrotate"
 #
