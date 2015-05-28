@@ -11,7 +11,7 @@ require 'yaml'
 
 app_name = node[:applications].keys.first
 env = node[:environment][:framework_env]
-rails_config =  YAML::load_file(File.join(File.dirname(__FILE__), '../../../', 'cookbooks/api-keys-yml/templates/default/api-keys.yml.erb'))[env]["logentries"]["syslog"]
+rails_config =  YAML::load_file(File.join(File.dirname(__FILE__), '../../../', 'cookbooks/api-keys-yml/templates/default/api-keys.yml.erb'))[env]["logentries"]
 LOGENTRIES_CONFIG = {
   :env                       => env,
   :rsyslog_version           => '7.2.2-r1',
@@ -33,7 +33,13 @@ if %w(app app_master solo util).include?(node[:instance_role])
   template '/etc/rsyslog.d/22-rails-logentries.conf' do
     source 'rails-logentries.conf.erb'
     mode '0644'
-    variables(LOGENTRIES_CONFIG)
+    variables({
+      oink_token: rails_config["oink"]["token"],
+      cron_token: rails_config["cron"]["token"],
+      syslog_token: rails_config["syslog"]["token"],
+      nginx_token: rails_config["nginx"]["token"],
+      passenger_token: rails_config["passenger"]["token"],
+    })
   end
 end
 

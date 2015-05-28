@@ -1,3 +1,73 @@
-$template LogentriesFormat,"<%= @token %> %HOSTNAME% %syslogtag%%msg%\n"
+$Modload imfile
 
+# Oink logs
+$InputFileName /data/givecorpssite/current/log/oink.log
+$InputFileTag Oink
+$InputFileStateFile oink-file1
+$InputFileSeverity info
+$InputFileFacility local2
+$InputRunFileMonitor
+
+# Cron task logs
+$InputFileName /data/givecorpssite/current/log/production_cron_tasks.log
+$InputFileTag CronTask
+$InputFileStateFile cron-task-file1
+$InputFileSeverity info
+$InputFileFacility local3
+$InputRunFileMonitor
+
+# Nginx logs
+$InputFileName /var/log/nginx/givecorpssite.access.log
+$InputFileTag Nginx
+$InputFileStateFile nginx-file1
+$InputFileSeverity debug
+$InputRunFileMonitor
+
+$InputFileName /var/log/nginx/givecorpssite.error.log
+$InputFileTag Nginx
+$InputFileStateFile nginx-errors-file1
+$InputFileSeverity error
+$InputRunFileMonitor
+
+$InputFileName /var/log/nginx/givecorpssite.ssl.access.log
+$InputFileTag Nginx
+$InputFileStateFile nginx-ssl-file1
+$InputFileSeverity debug
+$InputRunFileMonitor
+
+$InputFileName /var/log/nginx/givecorpssite.ssl.error.log
+$InputFileTag Nginx
+$InputFileStateFile nginx-ssl-error-file1
+$InputFileSeverity error
+$InputRunFileMonitor
+
+$InputFileName /var/log/nginx/passenger.log
+$InputFileTag Passenger
+$InputFileStateFile passenger-file1
+$InputFileSeverity debug
+$InputRunFileMonitor
+
+# Only entered once in case of following multiple files
+# This will poll the file every 10 seconds
+$InputFilePollInterval 10
+
+$template OinkTemplate,"<%= @oink_token %> %syslogtag%: %msg%\n"
+if $programname == 'Oink' then @@data.logentries.com:80;OinkTemplate
+& ~
+
+$template CronTemplate,"<%= @cron_token %> %syslogtag%: %msg%\n"
+if $programname == 'CronTask' then @@data.logentries.com:80;CronTemplate
+& ~
+
+$template NginxTemplate,"<%= @nginx_token %> %HOSTNAME% %syslogtag%: %msg%\n"
+if $programname == 'Nginx' then @@data.logentries.com:80;NginxTemplate
+& ~
+
+$template PassengerTemplate,"<%= @passenger_token %> %HOSTNAME% %syslogtag%: %msg%\n"
+if $programname == 'Passenger' then @@data.logentries.com:80;PassengerTemplate
+& ~
+
+# syslog
+$template LogentriesFormat,"<%= @syslog_token %> %HOSTNAME% %syslogtag%%msg%\n"
 *.* @@data.logentries.com:80;LogentriesFormat
+
