@@ -29,16 +29,28 @@ package 'app-admin/rsyslog' do
   action :install
 end
 
-if %w(app app_master solo util).include?(node[:instance_role])
+case env
+when "production"
+  if %w(app app_master solo util).include?(node[:instance_role])
+    template '/etc/rsyslog.d/22-rails-logentries.conf' do
+      source 'rails-logentries-production.conf.erb'
+      mode '0644'
+      variables({
+        env: env,
+        oink_token: rails_config["oink"]["token"],
+        cron_token: rails_config["cron"]["token"],
+        syslog_token: rails_config["syslog"]["token"],
+        nginx_token: rails_config["nginx"]["token"],
+        passenger_token: rails_config["passenger"]["token"],
+      })
+    end
+  end
+else
   template '/etc/rsyslog.d/22-rails-logentries.conf' do
     source 'rails-logentries.conf.erb'
     mode '0644'
     variables({
-      oink_token: rails_config["oink"]["token"],
-      cron_token: rails_config["cron"]["token"],
-      syslog_token: rails_config["syslog"]["token"],
-      nginx_token: rails_config["nginx"]["token"],
-      passenger_token: rails_config["passenger"]["token"],
+      syslog_token: rails_config["syslog"]["token"]
     })
   end
 end

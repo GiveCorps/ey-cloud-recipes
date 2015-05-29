@@ -1,8 +1,0 @@
-$ModLoad imudp
-$UDPServerRun 514
-
-$template LogglyFormatRails,"<%%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% %procid% %msgid% [<%= @token %> tag=\"Rails\"] %msg%\n"
-
-local7.* @@logs-01.loggly.com:514;LogglyFormatRails
-local7.* /data/givecorpssite/current/log/<%= @env %>.log
-local7.* ~ #discards the messages so they dont end up in /var/log/syslog
