@@ -72,7 +72,7 @@ include_recipe "api-keys-yml"
 include_recipe "timezone"
 
 # include the logentries recipe
-include_recipe "logentries"
+include_recipe "le"
 
 #include_recipe "logrotate"
 #
