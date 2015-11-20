@@ -75,7 +75,7 @@ include_recipe "timezone"
 include_recipe "le"
 
 # nginx custom.conf
-include_recipe "nginx-custom"
+include_recipe "nginx_custom"
 
 #include_recipe "logrotate"
 #
