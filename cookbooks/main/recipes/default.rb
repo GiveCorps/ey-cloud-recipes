@@ -74,6 +74,9 @@ include_recipe "timezone"
 # include the logentries recipe
 include_recipe "le"
 
+# nginx custom.conf
+include_recipe "nginx-custom"
+
 #include_recipe "logrotate"
 #
 #uncomment to use the solr recipe
