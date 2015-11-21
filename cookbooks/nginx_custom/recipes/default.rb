@@ -3,15 +3,23 @@
 # Recipe:: default
 #
 
-if (['app_master', 'app', 'solo'].include?(node[:instance_role]))
+def create_custom_nginx_template(source_file)
   node[:engineyard][:environment][:apps].each do |app|
-    template "/etc/nginx/servers/#{app[:name]}/custom.conf" do
-      source 'custom.conf.erb'
+    template "/etc/nginx/servers/#{app[:name]}/#{template}" do
+      source "#{source_file}".erb
       owner node[:users][0][:username]
       group node[:users][0][:username]
       mode 0644
     end
-
-    execute "sudo /etc/init.d/nginx reload"
   end
 end
+
+if (['app_master', 'app', 'solo'].include?(node[:instance_role]))
+  %w(custom.conf custom.ssl.conf).each do |source_file|
+    create_custom_nginx_template(source_file)
+  end
+
+  execute "sudo /etc/init.d/nginx reload"
+end
+
+
