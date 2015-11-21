@@ -3,7 +3,7 @@
 # Recipe:: default
 #
 
-if (['app_master', 'app'].include?(node[:instance_role]))
+if (['app_master', 'app', 'solo'].include?(node[:instance_role]))
   node[:engineyard][:environment][:apps].each do |app|
     template "/etc/nginx/servers/#{app[:name]}/custom.conf" do
       source 'custom.conf.erb'
