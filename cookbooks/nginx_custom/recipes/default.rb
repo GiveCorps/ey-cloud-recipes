@@ -6,7 +6,7 @@
 def create_custom_nginx_template(filename)
   node[:engineyard][:environment][:apps].each do |app|
     template "/etc/nginx/servers/#{app[:name]}/#{filename}" do
-      source "#{filename}".erb
+      source "#{filename}.erb"
       owner node[:users][0][:username]
       group node[:users][0][:username]
       mode 0644
