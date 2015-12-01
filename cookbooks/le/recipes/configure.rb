@@ -6,7 +6,7 @@
 env = node[:environment][:framework_env]
 
 execute "le register --account-key" do
-  command "le register --account-key #{node[:rails_config]['api_key']} --name #{node[:applications].keys.first}"
+  command "le register --account-key #{node[:rails_config]['api_key']} --hostname #{node[:hostname]} --name #{node[:applications].keys.first}"
   action :run
   not_if { File.exists?('/etc/le/config') }
 end
@@ -47,7 +47,7 @@ end
 
 follow_paths.each do |path|
   execute "le follow #{path}" do
-    command "le follow #{path} --force"
+    command "le follow #{path}"
     ignore_failure true
     action :run
   end
