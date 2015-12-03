@@ -11,7 +11,8 @@ when 'app', 'app_master', 'solo'
         mode 0755
         source "#{shell_script}.erb"
         variables({
-          app_dir: "/data/#{app_name}/current"
+          app_dir: "/data/#{app_name}/current",
+          environment: node[:environment][:framework_env]
         })
       end
     end

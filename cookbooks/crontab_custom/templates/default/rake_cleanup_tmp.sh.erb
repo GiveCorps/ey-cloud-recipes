@@ -1,4 +1,4 @@
 #!/bin/bash
 
 cd <%= @app_dir %>
-su -c "bundle exec rake cleanup:tmp" deploy
+su -c "RAILS_ENV=<%= @environment %> rake cleanup:tmp" deploy
