@@ -47,7 +47,7 @@ end
 
 follow_paths.each do |path|
   execute "le follow #{path}" do
-    command "le follow #{path}"
+    command "le follow #{path}; true"
     ignore_failure true
     action :run
   end
