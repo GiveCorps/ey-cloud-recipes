@@ -77,6 +77,9 @@ include_recipe "le"
 # nginx custom.conf
 include_recipe "nginx_custom"
 
+# custom cron jobs for cron.weekly
+include_recipe "crontab_custom"
+
 #include_recipe "logrotate"
 #
 #uncomment to use the solr recipe
