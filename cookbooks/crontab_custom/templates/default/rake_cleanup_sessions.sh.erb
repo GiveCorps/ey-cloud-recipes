@@ -2,4 +2,4 @@
 
 cd <%= @app_dir %>
 logger "Cron: Removing old sessions"
-su -c "RAILS_ENV=<%= @environment %> /usr/local/bin/bundle rake cleanup:sessions" deploy
+su -c "RAILS_ENV=<%= @environment %> /usr/local/bin/bundle exec rake cleanup:sessions" deploy
