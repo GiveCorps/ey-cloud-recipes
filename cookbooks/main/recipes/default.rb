@@ -91,6 +91,9 @@ include_recipe "crontab_custom"
 # Set environment variables as specified in cookbooks/env_vars/attributes/env_vars.rb
 #include_recipe "env_vars"
 
+# This is the passenger 4 monitor script. See
+# https://github.com/engineyard/ey-cloud-recipes/tree/master/cookbooks/passenger_monitor for more details.
+#include_recipe 'passenger_monitor'
 
 #uncomment to include the mysql_replication_check recipe
 #include_recipe "mysql_replication_check"
