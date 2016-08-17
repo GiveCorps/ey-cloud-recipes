@@ -15,8 +15,6 @@ follow_paths = [
   "/var/log/syslog",
   "/var/log/auth.log",
   "/var/log/daemon.log",
-  "/var/log/chef.custom.log",
-  "/var/log/chef.main.log"
 ]
 
 case node[:instance_role]
@@ -24,7 +22,6 @@ when 'app', 'app_master', 'solo'
   ["/var/log/nginx/passenger.log"].each { |file| follow_paths << file }
 
   (node[:applications] || []).each do |app_name, app_info|
-    follow_paths << "/var/log/nginx/#{app_name}.access.log"
     follow_paths << "/var/log/nginx/#{app_name}.error.log"
     follow_paths << "/var/log/engineyard/apps/#{app_name}/oink.log"
     follow_paths << "/var/log/engineyard/apps/#{app_name}/production.log"
