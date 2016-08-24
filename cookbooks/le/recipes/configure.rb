@@ -11,6 +11,7 @@ template '/etc/le/config' do
 	variables({
 		user_key: rails_config['logentries']['api_key'],
 		agent_key: rails_config['logentries']['agent_key'],
+    role: node[:instance_role]
 	})
 	mode '0644'
 end
