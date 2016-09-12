@@ -13,6 +13,8 @@
 # uncomment to use the collectd recipe. See cookbooks/collectd/readme.md for documentation.
 # include_recipe "collectd"
 
+include_recipe "cron"
+
 # uncomment to use the block recipe. See cookbooks/block/readme.md for documentation.
 # include_recipe "ban"
 
@@ -76,9 +78,6 @@ include_recipe "le"
 
 # nginx custom.conf
 include_recipe "nginx_custom"
-
-# custom cron jobs for cron.weekly
-include_recipe "crontab_custom"
 
 #include_recipe "logrotate"
 #

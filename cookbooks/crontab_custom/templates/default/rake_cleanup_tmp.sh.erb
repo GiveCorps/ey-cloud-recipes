@@ -1,5 +1,0 @@
-#!/bin/bash
-
-cd <%= @app_dir %>
-logger "Cron: Cleaning up /tmp/ directory"
-su -c "RAILS_ENV=<%= @environment %> /usr/local/bin/bundle exec rake cleanup:tmp" deploy
