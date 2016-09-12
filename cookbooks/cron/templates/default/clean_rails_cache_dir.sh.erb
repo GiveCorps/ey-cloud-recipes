@@ -2,5 +2,5 @@
 
 APP_DIR=<%= @app_dir %>
 if [ -d "${APP_DIR:-NULL}" ]; then
-  find $APP_DIR -type f -mtime +7 -print -delete
+  find $APP_DIR -type f -mtime +7 -not -path "*/assets/*" -print -delete
 fi
