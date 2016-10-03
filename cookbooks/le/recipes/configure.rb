@@ -6,6 +6,11 @@
 env = node[:environment][:framework_env]
 rails_config = node[:config_hash]['defaults'].deep_merge(node[:config_hash][env])
 
+execute "create /etc/le" do
+  command "mkdir /etc/le"
+  not_if { Dir.exists?("/etc/le") }
+end
+
 template '/etc/le/config' do
 	source 'config.erb'
 	variables({
