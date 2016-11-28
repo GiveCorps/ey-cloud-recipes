@@ -92,7 +92,7 @@ include_recipe "nginx_custom"
 
 # This is the passenger 4 monitor script. See
 # https://github.com/engineyard/ey-cloud-recipes/tree/master/cookbooks/passenger_monitor for more details.
-#include_recipe 'passenger_monitor'
+include_recipe 'passenger_monitor'
 
 #uncomment to include the mysql_replication_check recipe
 #include_recipe "mysql_replication_check"
