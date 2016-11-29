@@ -12,6 +12,7 @@ script_version="0.1.0"
 #===============================================================================
 
 target_app=$1
+log_prefix=$(basename $0)
 
 # Check user is root.
 if [ "`whoami`" != "root" ]; then
@@ -19,7 +20,7 @@ if [ "`whoami`" != "root" ]; then
   exit 1
 fi
 
-## Defaults 
+## Defaults
 # memory limit - override with -l <limit in MB>
 # grace time - how long to wait before doing a kill -9 - override with -w <grace_time in seconds>
 limit=250
@@ -68,7 +69,7 @@ for record in `passenger-memory-stats | egrep -i "Passenger Ra(ils|ck)App:" | se
 
   ## Check the against the limit, if it exceeds the memory amount, KILL IT.
   if [[ $app_real -gt $limit ]]; then
-    logger -t passenger_monitor -s "Killing PID $app_pid (app $app_name) - memory $app_real MB exceeds $limit MB"
+    logger -t $log_prefix -s "Killing PID $app_pid (app $app_name) - memory $app_real MB exceeds $limit MB"
     kill -USR1 $app_pid
     SLEEP_COUNT=0
     while [ -e /proc/$app_pid ]; do
@@ -76,12 +77,12 @@ for record in `passenger-memory-stats | egrep -i "Passenger Ra(ils|ck)App:" | se
       let "SLEEP_COUNT+=1"
       let "REPORT_TIME = $SLEEP_COUNT%4"
       if(( "$SLEEP_COUNT" > $grace_time )); then
-        logger -t passenger_monitor -s "Stopping Passenger worker Process $app_pid wait exceeded, killing it"
+        logger -t $log_prefix -s "Stopping Passenger worker Process $app_pid wait exceeded, killing it"
         kill -9 $app_pid 2>/dev/null; true
         break
       elif(( $REPORT_TIME == 0 ));then
         let "RUNTIME = $SLEEP_COUNT/4"
-        logger -t passenger_monitor -s "Waiting for $app_pid to die ( for $RUNTIME seconds now)"
+        logger -t $log_prefix -s "Waiting for $app_pid to die ( for $RUNTIME seconds now)"
       fi
     done
   fi
@@ -90,7 +91,7 @@ done
 ## Passenger 2 stale passenger.<x> fix:
 ## Remove stale passenger.<x> directories to prevent
 ## multiple passenger instance running error.
-for each in /tmp/passenger.*;do 
+for each in /tmp/passenger.*;do
   if [[ -d ${each}/info ]]; then  # This is passenger 2?
     if [[ ! -e ${each}/info/status.socket ]]; then  # Remove stale directories.
       rm -rf ${each}
@@ -107,9 +108,9 @@ if [ "$exit_code" -eq "0" ] ; then
   pstats=$(echo "$raw_stats" | sed -r -e '/PID:/!d' -e 's/.*PID:\s([0-9]+).*/\1/' | sort -n| uniq)
   for pid in `diff <(ps aux | egrep -i 'Passenger Ra(ils|ck)App:' | awk '{print $2}' | sort -n) <(echo "$pstats") | grep '<' | awk '{print $2}'`; do
     kill -9 $pid
-    logger -t passenger_monitor -s "Killing PID $pid - orphaned process"
+    logger -t $log_prefix -s "Killing PID $pid - orphaned process"
   done
 else
-  logger -t passenger_monitor -s "Could not read passenger-status [Status:$exit_code]"
-  logger -t passenger_monitor -s "$raw_stats"
+  logger -t $log_prefix -s "Could not read passenger-status [Status:$exit_code]"
+  logger -t $log_prefix -s "$raw_stats"
 fi
