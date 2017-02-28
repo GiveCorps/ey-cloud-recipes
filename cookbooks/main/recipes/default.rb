@@ -74,7 +74,10 @@ include_recipe "api-keys-yml"
 include_recipe "timezone"
 
 # include the logentries recipe
-include_recipe "le"
+
+unless node[:environment][:framework_env] == 'qa'
+  include_recipe "le"
+end
 
 # nginx custom.conf
 include_recipe "nginx_custom"
