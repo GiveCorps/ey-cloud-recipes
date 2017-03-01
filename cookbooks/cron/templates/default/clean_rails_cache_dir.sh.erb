@@ -1,6 +1,6 @@
 #!/bin/sh
 
-APP_DIR=<%= @app_dir %>
-if [ -d "${APP_DIR:-NULL}" ]; then
-  find $APP_DIR -type f -mtime +7 -not -path "*/assets/*" -print -delete
+CACHE_DIR=<%= @cache_dir %>
+if [ -d "${CACHE_DIR:-NULL}" ]; then
+  find $CACHE_DIR -type f -mtime +7 -not -path "*/assets/*" -print -delete
 fi
