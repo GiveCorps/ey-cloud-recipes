@@ -75,7 +75,7 @@ include_recipe "timezone"
 
 # include the logentries recipe
 
-unless node[:environment][:framework_env] == 'qa'
+if node[:environment][:framework_env] == 'production'
   include_recipe "le"
 end
 
