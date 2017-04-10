@@ -27,19 +27,26 @@ if ['solo', 'util'].include?(node[:instance_role])
       mode 0644
       source "monitrc.conf.erb"
       variables({
-      :num_workers => worker_count,
+      :num_workers => worker_count + 1,
       :app_name => app,
       :rails_env => node[:environment][:framework_env]
       })
     end
 
-    worker_count.times do |count|
+    (worker_count - 1).times do |count|
       template "/data/#{app}/shared/config/resque_#{count}.conf" do
         owner node[:owner_name]
         group node[:owner_name]
         mode 0644
         source "resque_wildcard.conf.erb"
       end
+    end
+
+    template "/data/#{app}/shared/config/resque_#{worker_count}.conf" do
+      owner node[:owner_name]
+      group node[:owner_name]
+      mode 0644
+      source "resque_prioritized_queues.conf.erb"
     end
 
     execute "ensure-resque-is-setup-with-monit" do
