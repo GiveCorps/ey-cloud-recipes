@@ -72,6 +72,7 @@ include_recipe "api-keys-yml"
 
 # to use other than UTC as the timezone
 include_recipe "timezone"
+include_recipe "mysql_readonly_user"
 
 # include the logentries recipe
 
