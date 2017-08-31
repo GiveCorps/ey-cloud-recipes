@@ -14,7 +14,8 @@ if ['solo', 'util'].include?(node[:instance_role])
   else
     case node[:ec2][:instance_type]
     when 'm3.medium' then worker_count = 2
-    when 'm3.large' then worker_count = 8
+    when 'm3.large','c3.xlarge' then worker_count = 8
+    when 'c3.2xlarge' then worker_count = 20
     else worker_count = 4
     end
   end
