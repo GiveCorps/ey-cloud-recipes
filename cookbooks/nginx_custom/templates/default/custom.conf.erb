@@ -2,6 +2,10 @@ location /autodiscover/autodiscover.xml {
   return 404;
 }
 
+location ~ ^/wp-*|.*\.php$ {
+  return 404;
+}
+
 location /events/611-college-of-arts-humanities-social-sciences-english-department-happy-hour {
   return 301 https://umbc.networkforgood.com/events/616-english-department-50th-anniversary-celebration;
 }
