@@ -3,7 +3,7 @@ default[:passenger_monitor4] = {
   :app_name => "givecorpssite",
 
   # passenger worker memory limit, in MB
-  :memory_limit => 400,
+  :memory_limit => 600,
 
   # When a worker hits or exceeds the memory limit, we attempt to kill it with kill -USR1 <PID>
   # Due to this bug: https://github.com/phusion/passenger/wiki/Phusion-Passenger:-Node.js-tutorial#restarting_apps_that_serve_long_running_connections,
