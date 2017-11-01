@@ -3,7 +3,7 @@
 # ex: add_java_option -Duser.timezone=UTC
 timezone = "US/Eastern"
 
-unless ['db_master', 'db_slave', 'solo'].include?(node[:instance_role])
+unless ['db_master', 'db_slave'].include?(node[:instance_role])
   service "vixie-cron"
   service "sysklogd"
   service "nginx"
