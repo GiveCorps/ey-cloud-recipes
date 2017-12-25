@@ -9,3 +9,15 @@ location ~ ^/wp-*|.*\.php$ {
 location /events/611-college-of-arts-humanities-social-sciences-english-department-happy-hour {
   return 301 https://umbc.networkforgood.com/events/616-english-department-50th-anniversary-celebration;
 }
+
+location @app_givecorpssite_heartbeat {
+  include /etc/nginx/common/proxy.conf;
+  # Fake the app out, make it think we're operating under HTTPS whether we are or not. Sneaky sneaky.
+  proxy_set_header X-Forwarded-Proto https;
+  proxy_pass http://givecorpssite_upstream;
+}
+
+location /healthcheck {
+  if (-f $document_root/system/maintenance.html) { return 200; }
+  try_files $uri $uri/index.html $uri.html @app_givecorpssite_heartbeat;
+}
